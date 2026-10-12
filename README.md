@@ -89,7 +89,7 @@ O M221 e o M241 guardam valores de 32 bits com a **word baixa primeiro** e strin
 
 - Somente leitura (sem escrita no CLP).
 - Somente Modbus TCP (sem RTU/serial).
-- Testado em CLP M221. O M241 foi testado só com simulador.
+- Testado em CLPs M221 e M241 reais.
 
 ### Exemplo
 
@@ -153,7 +153,7 @@ M221 and M241 store 32-bit values **low word first** and strings with the **firs
 
 - Read only (no writing to the PLC).
 - Modbus TCP only (no RTU/serial).
-- Tested on a real M221. The M241 was tested only with a simulator.
+- Tested on real M221 and M241 PLCs.
 
 ### Example
 

@@ -62,7 +62,7 @@
 </script>
 
 <script type="text/html" data-help-name="schneider-read">
-    <p>Reads <code>%MW</code> memory from a Schneider M221 or M241 over Modbus TCP and sends the decoded values.</p>
+    <p>Reads <code>%MW</code>, <code>%MF</code> and <code>%MD</code> memory from a Schneider M221 or M241 over Modbus TCP and sends the decoded values.</p>
     <h3>Outputs</h3>
     <dl class="message-properties">
         <dt>payload <span class="property-type">object</span></dt>
@@ -70,7 +70,7 @@
         <dt>timestamp <span class="property-type">number</span></dt>
         <dd>Time of the read in milliseconds.</dd>
     </dl>
-    <p>Close addresses are grouped into as few requests as possible. Any input message triggers a read and is passed through with the new payload.</p>
+    <p>Close addresses are grouped into as few requests as possible. Any input message triggers a read and is passed through with the new payload. If the PLC does not answer, the node reports an error that a <code>catch</code> node can handle, and sends nothing.</p>
     <h3>Tag list</h3>
     <p>One tag per line: <code>address type name</code>. Type and name are optional. Use the same addresses as in SoMachine / Machine Expert:</p>
     <pre>MF0     temperatura
@@ -82,7 +82,7 @@ MW60206 float      velocidade
 MW60210 string[20] codigo_bobina
 MW60222 int        bobinas_prontas
 MW60226 dint       horas
-MW60300 bool.3     motor_ligado</pre>
+MW60300 bool.3     alarme_ativo</pre>
     <table>
         <tr><th>Type</th><th>Registers</th><th>Value</th></tr>
         <tr><td><code>bool</code></td><td>1</td><td>whole word, true when not 0</td></tr>
@@ -94,7 +94,7 @@ MW60300 bool.3     motor_ligado</pre>
         <tr><td><code>float</code> / <code>real</code></td><td>2</td><td>32-bit REAL (<code>%MF</code>)</td></tr>
         <tr><td><code>string[N]</code></td><td>N/2</td><td>N ASCII characters, ends at the first 0 byte</td></tr>
     </table>
-    <p>Without a type, <code>MW</code> is <code>int</code>, <code>MF</code> is <code>float</code> and <code>MD</code> is <code>dint</code>. Where <code>MF</code>/<code>MD</code> sit depends on the PLC model (M221 or M241). <code>%MW100</code>, <code>MW100</code>, <code>mw100</code> and <code>MW100 : float</code> are all accepted. Lines starting with <code>#</code> are comments.</p>
+    <p>Without a type, <code>MW</code> is <code>int</code>, <code>MF</code> is <code>float</code> and <code>MD</code> is <code>dint</code>. Where <code>MF</code>/<code>MD</code> sit depends on the PLC model (M221 or M241). <code>%MW100</code>, <code>MW100</code>, <code>mw100</code> and <code>MW100 : float</code> are all accepted. Text after <code>#</code> or <code>//</code> is a comment. Each name must be unique, since it becomes a key in <code>msg.payload</code>.</p>
     <h3>Byte order</h3>
     <p>M221 and M241 store 32-bit values with the low word first and strings with the first character in the low byte. Change the options only for devices that use another order.</p>
 </script>

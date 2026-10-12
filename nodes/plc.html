@@ -57,10 +57,10 @@
     <dl class="message-properties">
         <dt>Model</dt><dd>Sets where <code>%MF</code> and <code>%MD</code> sit: on the M221 <code>%MD4</code> is <code>%MW4</code>-<code>%MW5</code>, on the M241 it is <code>%MW8</code>-<code>%MW9</code>.</dd>
         <dt>IP / Port</dt><dd>Controller address, port 502 by default.</dd>
-        <dt>Unit id</dt><dd>1 works for M221 and M241 <code>%MW</code> memory.</dd>
+        <dt>Unit id</dt><dd>1 by default. Change it only if your PLC's Modbus server is set to another id.</dd>
         <dt>Timeout</dt><dd>How long to wait for each answer.</dd>
         <dt>Reconnect</dt><dd>Wait after a failure before opening the connection again.</dd>
         <dt>Max per read</dt><dd>Largest block read in one request (1 to 125).</dd>
     </dl>
-    <p>Several read nodes can share one connection; their requests are queued.</p>
+    <p>This is a configuration node: it does not appear in the palette. Create it from the PLC field of a <b>schneider read</b> node. Several read nodes can share one connection; their requests are queued.</p>
 </script>

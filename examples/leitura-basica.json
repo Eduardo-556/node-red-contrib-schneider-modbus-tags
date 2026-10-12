@@ -4,13 +4,14 @@
     "type": "tab",
     "label": "Schneider modbus tags",
     "disabled": false,
-    "info": "Exemplo: le a OP1475 a cada 2 s e mostra os valores no debug."
+    "info": "Exemplo: le um M221 a cada 2 s e mostra os valores no debug. Ajuste o IP no no de conexao e a lista de tags."
   },
   {
     "id": "ex_plc",
     "type": "schneider-plc",
-    "name": "CLP OP1475",
-    "host": "10.0.200.27",
+    "name": "M221",
+    "model": "M221",
+    "host": "192.168.1.10",
     "port": 502,
     "unitId": 1,
     "timeout": 3000,
@@ -21,15 +22,15 @@
     "id": "ex_read",
     "type": "schneider-read",
     "z": "ex_tab",
-    "name": "OP1475",
+    "name": "leitura",
     "plc": "ex_plc",
-    "tags": "# OP1475 - Relocation Table\nMW60200 bool       plc_run\nMW60201 bool       emergencia\nMW60206 float      velocidade_pct\nMW60208 float      velocidade_mmin\nMW60210 string[20] codigo_bobina\nMW60220 float      peso_bobina_kg\nMW60222 int        bobinas_prontas\nMW60224 float      cortado_ton\nMW60226 dint       bobina_horas\nMW60228 dint       bobina_minutos\nMW60230 dint       bobina_segundos\nMW60238 dint       rpm_desbobinador\nMW60240 dint       rpm_refilador\nMW60242 dint       rpm_rebarbador\nMW60244 dint       rpm_bobinador",
+    "tags": "# Troque pelos enderecos do seu programa\nMF0      temperatura\nMD2      contador_pecas\nMW4      setpoint\nMW5.0    motor_ligado\nMW10     string[20] codigo_lote",
     "interval": 2,
-    "topic": "OP1475",
+    "topic": "M221",
     "wordOrder": "low",
     "byteOrder": "low",
     "decimals": "3",
-    "x": 180,
+    "x": 160,
     "y": 100,
     "wires": [
       [
@@ -48,7 +49,7 @@
     "tostatus": false,
     "complete": "payload",
     "targetType": "msg",
-    "x": 400,
+    "x": 360,
     "y": 100,
     "wires": []
   }

@@ -78,3 +78,15 @@ test('read node reports an error when the PLC is offline', async () => {
     const msg = await got;
     assert.ok(msg.error, 'catch node got the error');
 });
+
+test('decode example flow produces the documented values', async () => {
+    const flow = require('../examples/conversao-flex-getter.json').filter(n => n.type !== 'tab' && n.type !== 'comment' && n.type !== 'inject' && n.type !== 'debug');
+    flow.find(n => n.type === 'schneider-decode').wires = [['h']];
+    flow.push({ id: 'h', type: 'helper' });
+    await helper.load([decodeNode], flow);
+    const inj = require('../examples/conversao-flex-getter.json').find(n => n.type === 'inject');
+    const got = new Promise(r => helper.getNode('h').on('input', r));
+    helper.getNode('dx_dec').receive({ payload: JSON.parse(inj.payload), address: 0 });
+    const msg = await got;
+    assert.deepStrictEqual(msg.payload, { temperatura: 87.5, contador_pecas: 1200, setpoint: 80, motor_ligado: true, codigo: 'AB12' });
+});

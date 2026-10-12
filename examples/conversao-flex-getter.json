@@ -1,0 +1,83 @@
+[
+  {
+    "id": "dx_tab",
+    "type": "tab",
+    "label": "Schneider decode",
+    "disabled": false,
+    "info": "Exemplo do no schneider decode. O inject simula a saida do flex getter do node-red-contrib-modbus (array de registros a partir do endereco 0). Para usar com o CLP, ligue o flex getter (FC3) direto no decode."
+  },
+  {
+    "id": "dx_cmt",
+    "type": "comment",
+    "z": "dx_tab",
+    "name": "flex getter (FC3, address 0) -> schneider decode",
+    "info": "O decode usa msg.modbusRequest.address (enviado pelo flex getter) ou msg.address como endereco inicial, se o campo Start address estiver vazio.",
+    "x": 240,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "dx_inj",
+    "type": "inject",
+    "z": "dx_tab",
+    "name": "registros simulados",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "address",
+        "v": "0",
+        "vt": "num"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "[0,17071,1200,0,80,1,16961,12849]",
+    "payloadType": "json",
+    "x": 170,
+    "y": 100,
+    "wires": [
+      [
+        "dx_dec"
+      ]
+    ]
+  },
+  {
+    "id": "dx_dec",
+    "type": "schneider-decode",
+    "z": "dx_tab",
+    "name": "",
+    "model": "M221",
+    "start": "",
+    "tags": "# Mesma lista de tags do no read\nMF0      temperatura\nMD2      contador_pecas\nMW4      setpoint\nMW5.0    motor_ligado\nMW6      string[4] codigo",
+    "wordOrder": "low",
+    "byteOrder": "low",
+    "decimals": "",
+    "x": 400,
+    "y": 100,
+    "wires": [
+      [
+        "dx_dbg"
+      ]
+    ]
+  },
+  {
+    "id": "dx_dbg",
+    "type": "debug",
+    "z": "dx_tab",
+    "name": "valores",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "x": 600,
+    "y": 100,
+    "wires": []
+  }
+]

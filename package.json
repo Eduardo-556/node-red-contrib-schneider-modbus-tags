@@ -1,10 +1,10 @@
 {
   "name": "node-red-contrib-schneider-modbus-tags",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Read Schneider M221/M241 memory (%MW, %MF, %MD) over Modbus TCP and get real values (float, dint, int, bool, string) straight into Node-RED.",
   "main": "lib/tags.js",
   "scripts": {
-    "test": "node --test test/tags.test.js test/connection.test.js",
+    "test": "node --test test/tags.test.js test/connection.test.js test/examples.test.js",
     "test:nodes": "node --test test/nodes.test.js"
   },
   "keywords": [

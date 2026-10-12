@@ -93,7 +93,10 @@ O M221 e o M241 guardam valores de 32 bits com a **word baixa primeiro** e strin
 
 ### Exemplo
 
-**Menu → Importar → Exemplos → node-red-contrib-schneider-modbus-tags → leitura-basica**. Ajuste o IP e a lista de tags.
+**Menu → Importar → Exemplos → node-red-contrib-schneider-modbus-tags**:
+
+- **leitura-basica**: nó read lendo um M221. Ajuste o IP e a lista de tags.
+- **conversao-flex-getter**: nó decode convertendo registros (simulados por um inject, funciona sem CLP). Para usar de verdade, ligue o flex getter do `node-red-contrib-modbus` no lugar do inject.
 
 ---
 
@@ -157,7 +160,10 @@ M221 and M241 store 32-bit values **low word first** and strings with the **firs
 
 ### Example
 
-**Menu → Import → Examples → node-red-contrib-schneider-modbus-tags → leitura-basica**. Set the IP and the tag list.
+**Menu → Import → Examples → node-red-contrib-schneider-modbus-tags**:
+
+- **leitura-basica**: read node polling an M221. Set the IP and the tag list.
+- **conversao-flex-getter**: decode node converting registers (simulated by an inject, works without a PLC). In a real flow, wire the `node-red-contrib-modbus` flex getter in place of the inject.
 
 ### Tests
 

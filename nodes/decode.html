@@ -1,0 +1,102 @@
+<script type="text/javascript">
+    RED.nodes.registerType('schneider-decode', {
+        category: 'Schneider',
+        color: '#3dcd58',
+        defaults: {
+            name: { value: '' },
+            model: { value: 'M221' },
+            start: { value: '', validate: RED.validators.number(true) },
+            tags: { value: '', required: true },
+            wordOrder: { value: 'low' },
+            byteOrder: { value: 'low' },
+            decimals: { value: '' }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'function.svg',
+        paletteLabel: 'schneider decode',
+        label: function () { return this.name || 'schneider decode'; }
+    });
+</script>
+
+<script type="text/html" data-template-name="schneider-decode">
+    <div class="form-row">
+        <label for="node-input-model"><i class="fa fa-microchip"></i> Model</label>
+        <select id="node-input-model">
+            <option value="M221">M221</option>
+            <option value="M241">M241</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-start">Start address</label>
+        <input type="text" id="node-input-start" style="width:100px" placeholder="msg.address">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tags"><i class="fa fa-list"></i> Tags</label>
+        <textarea id="node-input-tags" rows="12" style="width:100%; font-family:monospace; white-space:pre" placeholder="MF0 temperatura&#10;MD2 contador&#10;MW10 setpoint&#10;MW20 string[20] lote"></textarea>
+    </div>
+    <div class="form-row">
+        <label for="node-input-wordOrder">32-bit order</label>
+        <select id="node-input-wordOrder" style="width:70%">
+            <option value="low">Low word first (Schneider)</option>
+            <option value="high">High word first</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-byteOrder">String order</label>
+        <select id="node-input-byteOrder" style="width:70%">
+            <option value="low">Low byte first (Schneider)</option>
+            <option value="high">High byte first</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-decimals">Float decimals</label>
+        <input type="text" id="node-input-decimals" style="width:60px" placeholder="all">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="schneider-decode">
+    <p>Decodes registers that another node already read, such as the <code>node-red-contrib-modbus</code> flex getter, without opening a connection.</p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">array</span></dt>
+        <dd>Register values starting at the start address.</dd>
+        <dt class="optional">address <span class="property-type">number</span></dt>
+        <dd>Start address, used when the node field is empty (also read from <code>msg.modbusRequest.address</code>).</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">object</span></dt>
+        <dd>One key per tag.</dd>
+    </dl>
+    <h3>Tag list</h3>
+    <p>One tag per line: <code>address type name</code>. Type and name are optional. Use the same addresses as in SoMachine / Machine Expert:</p>
+    <pre>MF0     temperatura
+MD4     contador
+MW10    setpoint
+MW12.3  motor_ligado
+MW60200 bool       plc_run
+MW60206 float      velocidade
+MW60210 string[20] codigo_bobina
+MW60222 int        bobinas_prontas
+MW60226 dint       horas
+MW60300 bool.3     motor_ligado</pre>
+    <table>
+        <tr><th>Type</th><th>Registers</th><th>Value</th></tr>
+        <tr><td><code>bool</code></td><td>1</td><td>whole word, true when not 0</td></tr>
+        <tr><td><code>bool.N</code></td><td>1</td><td>bit N (0 to 15) of the word</td></tr>
+        <tr><td><code>int</code></td><td>1</td><td>signed 16-bit</td></tr>
+        <tr><td><code>uint</code> / <code>word</code></td><td>1</td><td>unsigned 16-bit</td></tr>
+        <tr><td><code>dint</code></td><td>2</td><td>signed 32-bit (<code>%MD</code>)</td></tr>
+        <tr><td><code>udint</code> / <code>dword</code></td><td>2</td><td>unsigned 32-bit</td></tr>
+        <tr><td><code>float</code> / <code>real</code></td><td>2</td><td>32-bit REAL (<code>%MF</code>)</td></tr>
+        <tr><td><code>string[N]</code></td><td>N/2</td><td>N ASCII characters, ends at the first 0 byte</td></tr>
+    </table>
+    <p>Without a type, <code>MW</code> is <code>int</code>, <code>MF</code> is <code>float</code> and <code>MD</code> is <code>dint</code>. Where <code>MF</code>/<code>MD</code> sit depends on the PLC model (M221 or M241). <code>%MW100</code>, <code>MW100</code>, <code>mw100</code> and <code>MW100 : float</code> are all accepted. Lines starting with <code>#</code> are comments.</p>
+    <h3>Byte order</h3>
+    <p>M221 and M241 store 32-bit values with the low word first and strings with the first character in the low byte. Change the options only for devices that use another order.</p>
+</script>
